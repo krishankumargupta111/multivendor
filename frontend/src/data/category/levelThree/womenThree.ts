@@ -1,0 +1,276 @@
+export const womenLevelThree = [
+  // Indian & Fusion Wear
+  {
+    name: "Kurtas & Suits",
+    categoryId: "women_kurtas_and_suits",
+    parentCategoryName: "Indian & Fusion Wear",
+    parentCategoryId: "women_indian_and_fusion_wear",
+    level: 3,
+  },
+  {
+    name: "Sarees",
+    categoryId: "women_sarees",
+    parentCategoryName: "Indian & Fusion Wear",
+    parentCategoryId: "women_indian_and_fusion_wear",
+    level: 3,
+  },
+  {
+    name: "Ethnic Dresses",
+    categoryId: "women_ethnic_dresses",
+    parentCategoryName: "Indian & Fusion Wear",
+    parentCategoryId: "women_indian_and_fusion_wear",
+    level: 3,
+  },
+  {
+    name: "Lehengas",
+    categoryId: "women_lehengas",
+    parentCategoryName: "Indian & Fusion Wear",
+    parentCategoryId: "women_indian_and_fusion_wear",
+    level: 3,
+  },
+  {
+    name: "Dupattas",
+    categoryId: "women_dupattas",
+    parentCategoryName: "Indian & Fusion Wear",
+    parentCategoryId: "women_indian_and_fusion_wear",
+    level: 3,
+  },
+
+  // Western Wear
+  {
+    name: "Tops",
+    categoryId: "women_tops",
+    parentCategoryName: "Western Wear",
+    parentCategoryId: "women_western_wear",
+    level: 3,
+  },
+  {
+    name: "Dresses",
+    categoryId: "women_dresses",
+    parentCategoryName: "Western Wear",
+    parentCategoryId: "women_western_wear",
+    level: 3,
+  },
+  {
+    name: "T-Shirts",
+    categoryId: "women_t_shirts",
+    parentCategoryName: "Western Wear",
+    parentCategoryId: "women_western_wear",
+    level: 3,
+  },
+  {
+    name: "Jeans",
+    categoryId: "women_jeans",
+    parentCategoryName: "Western Wear",
+    parentCategoryId: "women_western_wear",
+    level: 3,
+  },
+  {
+    name: "Trousers",
+    categoryId: "women_trousers",
+    parentCategoryName: "Western Wear",
+    parentCategoryId: "women_western_wear",
+    level: 3,
+  },
+  {
+    name: "Jackets",
+    categoryId: "women_jackets",
+    parentCategoryName: "Western Wear",
+    parentCategoryId: "women_western_wear",
+    level: 3,
+  },
+
+  // Footwear
+  {
+    name: "Casual Shoes",
+    categoryId: "women_casual_shoes",
+    parentCategoryName: "Footwear",
+    parentCategoryId: "women_footwear",
+    level: 3,
+  },
+  {
+    name: "Heels",
+    categoryId: "women_heels",
+    parentCategoryName: "Footwear",
+    parentCategoryId: "women_footwear",
+    level: 3,
+  },
+  {
+    name: "Flats",
+    categoryId: "women_flats",
+    parentCategoryName: "Footwear",
+    parentCategoryId: "women_footwear",
+    level: 3,
+  },
+  {
+    name: "Sandals",
+    categoryId: "women_sandals",
+    parentCategoryName: "Footwear",
+    parentCategoryId: "women_footwear",
+    level: 3,
+  },
+  {
+    name: "Boots",
+    categoryId: "women_boots",
+    parentCategoryName: "Footwear",
+    parentCategoryId: "women_footwear",
+    level: 3,
+  },
+
+  // Sports & Active Wear
+  {
+    name: "Sports T-Shirts",
+    categoryId: "women_sports_t_shirts",
+    parentCategoryName: "Sports & Active Wear",
+    parentCategoryId: "women_sports_and_active_wear",
+    level: 3,
+  },
+  {
+    name: "Leggings",
+    categoryId: "women_leggings",
+    parentCategoryName: "Sports & Active Wear",
+    parentCategoryId: "women_sports_and_active_wear",
+    level: 3,
+  },
+  {
+    name: "Track Pants",
+    categoryId: "women_track_pants",
+    parentCategoryName: "Sports & Active Wear",
+    parentCategoryId: "women_sports_and_active_wear",
+    level: 3,
+  },
+  {
+    name: "Sports Bras",
+    categoryId: "women_sports_bras",
+    parentCategoryName: "Sports & Active Wear",
+    parentCategoryId: "women_sports_and_active_wear",
+    level: 3,
+  },
+  {
+    name: "Yoga Wear",
+    categoryId: "women_yoga_wear",
+    parentCategoryName: "Sports & Active Wear",
+    parentCategoryId: "women_sports_and_active_wear",
+    level: 3,
+  },
+
+  // Lingerie & Sleepwear
+  {
+    name: "Bras",
+    categoryId: "women_bras",
+    parentCategoryName: "Lingerie & Sleepwear",
+    parentCategoryId: "women_lingerie_and_sleepwear",
+    level: 3,
+  },
+  {
+    name: "Panties",
+    categoryId: "women_panties",
+    parentCategoryName: "Lingerie & Sleepwear",
+    parentCategoryId: "women_lingerie_and_sleepwear",
+    level: 3,
+  },
+  {
+    name: "Shapewear",
+    categoryId: "women_shapewear",
+    parentCategoryName: "Lingerie & Sleepwear",
+    parentCategoryId: "women_lingerie_and_sleepwear",
+    level: 3,
+  },
+  {
+    name: "Night Suits",
+    categoryId: "women_night_suits",
+    parentCategoryName: "Lingerie & Sleepwear",
+    parentCategoryId: "women_lingerie_and_sleepwear",
+    level: 3,
+  },
+  {
+    name: "Robes",
+    categoryId: "women_robes",
+    parentCategoryName: "Lingerie & Sleepwear",
+    parentCategoryId: "women_lingerie_and_sleepwear",
+    level: 3,
+  },
+
+  // Beauty & Personal Care
+  {
+    name: "Makeup",
+    categoryId: "women_makeup",
+    parentCategoryName: "Beauty & Personal Care",
+    parentCategoryId: "women_beauty_and_personal_care",
+    level: 3,
+  },
+  {
+    name: "Skincare",
+    categoryId: "women_skincare",
+    parentCategoryName: "Beauty & Personal Care",
+    parentCategoryId: "women_beauty_and_personal_care",
+    level: 3,
+  },
+  {
+    name: "Hair Care",
+    categoryId: "women_hair_care",
+    parentCategoryName: "Beauty & Personal Care",
+    parentCategoryId: "women_beauty_and_personal_care",
+    level: 3,
+  },
+  {
+    name: "Fragrances",
+    categoryId: "women_fragrances",
+    parentCategoryName: "Beauty & Personal Care",
+    parentCategoryId: "women_beauty_and_personal_care",
+    level: 3,
+  },
+
+  // Gadgets
+  {
+    name: "Smart Watches",
+    categoryId: "women_smart_watches",
+    parentCategoryName: "Gadgets",
+    parentCategoryId: "women_gadgets",
+    level: 3,
+  },
+  {
+    name: "Headphones",
+    categoryId: "women_headphones",
+    parentCategoryName: "Gadgets",
+    parentCategoryId: "women_gadgets",
+    level: 3,
+  },
+  {
+    name: "Power Banks",
+    categoryId: "women_power_banks",
+    parentCategoryName: "Gadgets",
+    parentCategoryId: "women_gadgets",
+    level: 3,
+  },
+
+  // Jewellery
+  {
+    name: "Earrings",
+    categoryId: "women_earrings",
+    parentCategoryName: "Jewellery",
+    parentCategoryId: "women_jewellery",
+    level: 3,
+  },
+  {
+    name: "Necklaces",
+    categoryId: "women_necklaces",
+    parentCategoryName: "Jewellery",
+    parentCategoryId: "women_jewellery",
+    level: 3,
+  },
+  {
+    name: "Rings",
+    categoryId: "women_rings",
+    parentCategoryName: "Jewellery",
+    parentCategoryId: "women_jewellery",
+    level: 3,
+  },
+  {
+    name: "Bracelets",
+    categoryId: "women_bracelets",
+    parentCategoryName: "Jewellery",
+    parentCategoryId: "women_jewellery",
+    level: 3,
+  },
+]
