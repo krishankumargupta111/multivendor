@@ -7,8 +7,8 @@ interface CartItem {
   _id: string;
   product?: any;
   quantity?: number;
-  sellingPrice?: number;
-  mrpPrice?: number;
+ sellingPrice: number; 
+  mrpPrice: number;  
 
   [key: string]: any;
 }

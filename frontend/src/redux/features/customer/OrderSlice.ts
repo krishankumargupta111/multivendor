@@ -6,6 +6,7 @@ import { api } from "../../../config/api";
 interface Address {
   _id?: string;
   address?: string;
+   locality?: string;
   city?: string;
   state?: string;
   pincode?: string;
