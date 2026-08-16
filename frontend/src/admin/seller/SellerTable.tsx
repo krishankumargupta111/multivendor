@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import { InputLabel, MenuItem, Select,FormControl, type SelectChangeEvent, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
-import { fetchAllCoupon } from '../../redux/features/admin/CouponSlice';
+
 import { fetchSellers } from '../../redux/features/seller/SellerSlice';
 
 
