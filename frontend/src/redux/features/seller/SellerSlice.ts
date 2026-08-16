@@ -1,17 +1,47 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "../../../config/api";
 
-const initialState = {
+// ================= TYPES =================
+
+interface Seller {
+  _id: string;
+  sellerName?: string;
+  email?: string;
+  mobile?: string;
+  role?: string;
+  accountStatus?: string;
+  businessDetail?: any;
+  bankDetail?: any;
+  pickupAddress?: any;
+
+  [key: string]: any;
+}
+
+interface SellerState {
+  sellers: Seller[];
+  selectedSeller: Seller | null;
+  loading: boolean;
+  error: string | null;
+  profile: Seller | null;
+  report: any | null;
+  profileUpdated: boolean;
+}
+
+// ================= INITIAL STATE =================
+
+const initialState: SellerState = {
   sellers: [],
   selectedSeller: null,
   loading: false,
   error: null,
-  profile:null,
+  profile: null,
   report: null,
   profileUpdated: false,
 };
 
-const API_URL="/sellers";
+const API_URL = "/sellers";
+
+// ================= FETCH SELLER PROFILE =================
 
 export const fetchSellerProfile = createAsyncThunk<any, any>(
   "/sellers/fetchSellerProfile",
@@ -24,15 +54,17 @@ export const fetchSellerProfile = createAsyncThunk<any, any>(
       });
 
       console.log("fetch seller profile", response.data);
+
       return response.data;
     } catch (error) {
-     
-
       console.log("error", error);
+
       return rejectWithValue(error);
     }
-  },
+  }
 );
+
+// ================= FETCH SELLERS =================
 
 export const fetchSellers = createAsyncThunk<any, string>(
   "/sellers/fetchSellers",
@@ -45,13 +77,17 @@ export const fetchSellers = createAsyncThunk<any, string>(
       });
 
       console.log("fetch sellers", response.data);
+
       return response.data;
     } catch (error) {
       console.log("error", error);
+
       return rejectWithValue(error);
     }
-  },
+  }
 );
+
+// ================= FETCH SELLER REPORT =================
 
 export const fetchSellerReport = createAsyncThunk<any, any>(
   "/sellers/fetchSellerReport",
@@ -64,125 +100,168 @@ export const fetchSellerReport = createAsyncThunk<any, any>(
       });
 
       console.log("fetch seller report", response.data);
+
       return response.data;
     } catch (error) {
       console.log("error", error);
+
       return rejectWithValue(error);
     }
-  },
+  }
 );
 
-export const fetchSellerById = createAsyncThunk<any, number>(
+// ================= FETCH SELLER BY ID =================
+
+export const fetchSellerById = createAsyncThunk<any, string>(
   "/sellers/fetchSellerById",
   async (id, { rejectWithValue }) => {
     try {
       const response = await api.get(`${API_URL}/${id}`);
 
       console.log("fetch seller by id", response.data);
+
       return response.data;
     } catch (error) {
       console.log("error", error);
+
       return rejectWithValue(error);
     }
-  },
+  }
 );
 
-export const updateSellerAccountStatus = createAsyncThunk<any, any>(
+// ================= UPDATE SELLER STATUS =================
+
+export const updateSellerAccountStatus = createAsyncThunk<
+  any,
+  { id: string; status: string }
+>(
   "/sellers/fetchSellerAccountStatus",
-  async (
-    { id, status }: { id: number; status: string },
-    { rejectWithValue },
-  ) => {
+  async ({ id, status }, { rejectWithValue }) => {
     try {
-      const response = await api.patch(`/admin/seller/${id}/status/${status}`);
+      const response = await api.patch(
+        `/admin/seller/${id}/status/${status}`
+      );
 
       console.log("update seller status", response.data);
+
       return response.data;
     } catch (error) {
       console.log("error", error);
+
       return rejectWithValue(error);
     }
-  },
+  }
 );
+
+// ================= SLICE =================
 
 const sellerSlice = createSlice({
   name: "sellers",
+
   initialState,
+
   reducers: {},
+
   extraReducers: (builder) => {
-    builder.addCase(fetchSellerProfile.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-      state.profileUpdated = false;
-    });
-    builder.addCase(fetchSellerProfile.fulfilled, (state, action) => {
-      state.loading = false;
-      state.profile = action.payload;
-    });
-    builder.addCase(fetchSellerProfile.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message;
-    });
 
-    builder.addCase(fetchSellers.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
-    builder.addCase(fetchSellers.fulfilled, (state, action) => {
-      state.loading = false;
-      state.sellers = action.payload;
-    });
-    builder.addCase(fetchSellers.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message;
-    });
+    // ================= SELLER PROFILE =================
 
-    builder.addCase(fetchSellerById.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
-    builder.addCase(fetchSellerById.fulfilled, (state, action) => {
-      state.loading = false;
-      state.selectedSeller = action.payload;
-    });
-    builder.addCase(fetchSellerById.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message;
-    });
+    builder
+      .addCase(fetchSellerProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.profileUpdated = false;
+      })
 
-    builder.addCase(updateSellerAccountStatus.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
-    builder.addCase(updateSellerAccountStatus.fulfilled, (state, action) => {
-      state.loading = false;
-      const index = state.sellers.findIndex(
-        (seller) => seller._id === action.payload._id,
-      );
-      if (index !== -1) {
-        state.sellers[index] = action.payload;
-      }
-    });
-    builder.addCase(updateSellerAccountStatus.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message;
-    });
+      .addCase(fetchSellerProfile.fulfilled, (state, action) => {
+        state.loading = false;
+        state.profile = action.payload;
+      })
 
-    builder.addCase(fetchSellerReport.pending, (state) => {
-      state.loading = true;
-      state.error=null
-    });
-    builder.addCase(fetchSellerReport.fulfilled, (state, action) => {
-      state.loading = false;
-      state.report = action.payload;
-    });
-    builder.addCase(fetchSellerReport.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message;
-    });
+      .addCase(fetchSellerProfile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message ?? null;
+      });
+
+    // ================= FETCH SELLERS =================
+
+    builder
+      .addCase(fetchSellers.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+
+      .addCase(fetchSellers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.sellers = action.payload;
+      })
+
+      .addCase(fetchSellers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message ?? null;
+      });
+
+    // ================= FETCH SELLER BY ID =================
+
+    builder
+      .addCase(fetchSellerById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+
+      .addCase(fetchSellerById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.selectedSeller = action.payload;
+      })
+
+      .addCase(fetchSellerById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message ?? null;
+      });
+
+    // ================= UPDATE SELLER STATUS =================
+
+    builder
+      .addCase(updateSellerAccountStatus.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+
+      .addCase(updateSellerAccountStatus.fulfilled, (state, action) => {
+        state.loading = false;
+
+        const index = state.sellers.findIndex(
+          (seller) => seller._id === action.payload._id
+        );
+
+        if (index !== -1) {
+          state.sellers[index] = action.payload;
+        }
+      })
+
+      .addCase(updateSellerAccountStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message ?? null;
+      });
+
+    // ================= SELLER REPORT =================
+
+    builder
+      .addCase(fetchSellerReport.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+
+      .addCase(fetchSellerReport.fulfilled, (state, action) => {
+        state.loading = false;
+        state.report = action.payload;
+      })
+
+      .addCase(fetchSellerReport.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message ?? null;
+      });
   },
 });
 
-
-
-export default sellerSlice.reducer
+export default sellerSlice.reducer;
