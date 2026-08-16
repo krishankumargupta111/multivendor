@@ -68,9 +68,9 @@ const menu2 = [
   },
 ];
 
-type SellerDrawerListProps = {
-  toggleDrawer?: () => void;
-};
+interface SellerDrawerListProps {
+  toggleDrawer?: (newOpen: boolean) => () => void;
+}
 
 function SellerDrawerList({
   toggleDrawer,
