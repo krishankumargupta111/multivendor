@@ -1,18 +1,35 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "../../../config/api";
 
-const initialState = {
+interface Category {
+  _id: string;
+  name: string;
+}
+
+interface CategoryState {
+  categories: Category[];
+  loading: boolean;
+  error: string;
+}
+
+const initialState: CategoryState = {
   categories: [],
   loading: false,
   error: "",
 };
 
-export const getAllCategories = createAsyncThunk(
+export const getAllCategories = createAsyncThunk<
+  Category[],
+  void,
+  { rejectValue: string }
+>(
   "category/getAllCategories",
   async (_, { rejectWithValue }) => {
     try {
       const response = await api.get("/api/categories");
-console.log(response.data)
+
+      console.log(response.data);
+
       return response.data;
     } catch (error: any) {
       return rejectWithValue(
@@ -29,7 +46,6 @@ const categorySlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-
       .addCase(getAllCategories.pending, (state) => {
         state.loading = true;
         state.error = "";
@@ -40,9 +56,9 @@ const categorySlice = createSlice({
         state.categories = action.payload;
       })
 
-      .addCase(getAllCategories.rejected, (state, action: any) => {
+      .addCase(getAllCategories.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload || "Something went wrong";
       });
   },
 });

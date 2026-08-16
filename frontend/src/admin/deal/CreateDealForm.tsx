@@ -1,83 +1,112 @@
-import { Box, InputLabel, MenuItem, Select, TextField, Typography,FormControl, Button } from '@mui/material'
-import { useFormik } from 'formik'
+import {
+  Box,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+  FormControl,
+  Button,
+} from "@mui/material";
+import { useFormik } from "formik";
+import { useEffect } from "react";
 
-
-import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { createDeal } from '../../redux/features/admin/DealSlice'
-import { useEffect } from 'react'
-import { getAllCategories } from '../../redux/features/admin/CategorySlice'
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { createDeal } from "../../redux/features/admin/DealSlice";
+import { getAllCategories } from "../../redux/features/admin/CategorySlice";
 
 function CreateDealForm() {
-  const dispatch=useAppDispatch()
+  const dispatch = useAppDispatch();
 
-useEffect(()=>{
-  dispatch(getAllCategories())
-},[])
+  const categories = useAppSelector(
+    (store) => store.category.categories
+  );
 
-const categories = useAppSelector((store) => store.category.categories);
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, [dispatch]);
 
-
-
-  const formik=useFormik({
-    initialValues:{
-      discount:0,
-      categoryId:""
+  const formik = useFormik({
+    initialValues: {
+      discount: 0,
+      categoryId: "",
     },
-    onSubmit:(values)=>{
-console.log(values)
-dispatch(createDeal(values))
-    }
-  })
+
+    onSubmit: (values) => {
+      console.log(values);
+      dispatch(createDeal(values));
+    },
+  });
+
   return (
-    <Box sx={{width:600,margin:"auto",padding:3}} className='space-y-6'
-    component={"form"} onSubmit={formik.handleSubmit}>
+    <Box
+      sx={{
+        width: 600,
+        margin: "auto",
+        padding: 3,
+      }}
+      className="space-y-6"
+      component="form"
+      onSubmit={formik.handleSubmit}
+    >
       <div>
-<Typography variant='h4' sx={{textAlign:"center"}}>Create New Deal
+        <Typography
+          variant="h4"
+          sx={{ textAlign: "center" }}
+        >
+          Create New Deal
+        </Typography>
+      </div>
 
-</Typography>
-</div>
-<div>
-  <TextField fullWidth
-  name="discount"
-  label="Discount"
-  value={formik.values.discount}
-  onChange={formik.handleChange}
-  />
+      <div>
+        <TextField
+          fullWidth
+          name="discount"
+          label="Discount"
+          type="number"
+          value={formik.values.discount}
+          onChange={formik.handleChange}
+        />
+      </div>
 
-</div>
-<div>
+      <div>
+        <FormControl fullWidth required>
+          <InputLabel id="category-label">
+            Category
+          </InputLabel>
 
-<FormControl fullWidth required>
-            <InputLabel id="category-label">Category</InputLabel>
-            <Select
-            id='categoryId' 
-            labelId='category-label' 
-            name='categoryId' 
+          <Select
+            id="categoryId"
+            labelId="category-label"
+            name="categoryId"
             value={formik.values.categoryId}
-            onChange={formik.handleChange} 
-            label='category'>
-          
-              {
-              categories.map((item) => (
-  <MenuItem key={item._id} value={item._id}>
-    {item.name}
-  </MenuItem>
-))
-              }
-            </Select>
+            onChange={formik.handleChange}
+            label="Category"
+          >
+            {categories.map((item) => (
+              <MenuItem
+                key={item._id}
+                value={item._id}
+              >
+                {item.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
 
-          </FormControl>
-</div>
-
-
-<div>
-  <Button fullWidth sx={{py:"11px"}} type="submit" variant='contained' >
-    Create Deal
-  </Button>
-</div>
+      <div>
+        <Button
+          fullWidth
+          sx={{ py: "11px" }}
+          type="submit"
+          variant="contained"
+        >
+          Create Deal
+        </Button>
+      </div>
     </Box>
-
-  )
+  );
 }
 
-export default CreateDealForm
+export default CreateDealForm;
