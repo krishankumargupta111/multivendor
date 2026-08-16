@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import CartItemCard from './CartItemCard'
 import { Favorite, LocalOffer } from '@mui/icons-material'
 import { Button, TextField, Chip } from '@mui/material'

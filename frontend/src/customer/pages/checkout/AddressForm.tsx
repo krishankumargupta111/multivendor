@@ -9,7 +9,7 @@ interface AddressFormProps {
 }
 
 function AddressForm({
-  paymentGateway,
+
   onClose,
 }: AddressFormProps) {
   const dispatch = useAppDispatch();

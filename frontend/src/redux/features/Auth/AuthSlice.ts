@@ -94,7 +94,7 @@ reducers:{
 
 
 extraReducers:(builder)=>{
-    builder.addCase(sendLoginSignupOtp.fulfilled,(state,action)=>{
+    builder.addCase(sendLoginSignupOtp.fulfilled,(state)=>{
         state.otpSend=true
     })
         builder.addCase(signup.fulfilled,(state,action)=>{

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import  { useEffect } from 'react'
 import Navbar from '../../common/Navbar'
 import SellerDrawerList from '../sidebar/SellerDrawerList'
 import SellerRoutes from '../../routes/SellerRoutes'

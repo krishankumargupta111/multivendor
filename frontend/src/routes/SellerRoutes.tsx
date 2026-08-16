@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Route, Routes } from 'react-router'
 import HomePage from '../sellers/home/HomePage'
 import Products from '../sellers/products/Products'
