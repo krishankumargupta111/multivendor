@@ -1,4 +1,4 @@
-import React from 'react'
+
 import {Box} from '@mui/material'
 import { menLevelTwo } from '../../data/category/levelTwo/menLevelTwo'
 import { womenLevelTwo } from '../../data/category/levelTwo/womenLevelTwo'
@@ -23,7 +23,7 @@ const categoryThree:{[key:string]:any[]}={
   home_furniture:furnitureLevelThree
 }
 
-function CategorySheet({selectedCategory,toggleDrawer,setShowSheet}:any) {
+function CategorySheet({selectedCategory}:any) {
   const navigate=useNavigate()
   
   

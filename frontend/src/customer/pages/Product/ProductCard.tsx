@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import { useEffect } from 'react';
 import "./ProductCard.css"
 import { useNavigate } from 'react-router';
-import { useAppDispatch } from '../../../redux/store';
-import { addItemToCart } from '../../../redux/features/customer/CartSlice';
+
+
 function ProductCard({item}:any) {
     const [isHovered,setIsHovered]=useState(false)
     const[currentImage,setCurrentImage]=useState(1)
     const navigate=useNavigate()
-    const dispatch=useAppDispatch()
+    
 
     useEffect(()=>{
 let interval:any;

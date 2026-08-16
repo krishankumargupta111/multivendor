@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Badge, Button, Chip, Menu,MenuItem } from '@mui/material';
+import { Button, Chip, Menu,MenuItem } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { fetchSellerOrders, updateOrderStatus } from '../../redux/features/seller/SellerOrderSlice';
 

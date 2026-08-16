@@ -1,6 +1,6 @@
-import { Edit } from '@mui/icons-material'
-import { Avatar, Button, Divider } from '@mui/material'
-import React from 'react'
+
+import {  Divider } from '@mui/material'
+
 import ProfileFieldCard from '../../customer/pages/account/ProfileFieldCard'
 import { useAppSelector } from '../../redux/store'
 

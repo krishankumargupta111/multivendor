@@ -116,7 +116,7 @@ console.log("logout")
             <Divider/>
 
              {
-                menu2.map((item,index)=>
+                menu2.map((item)=>
                    <div onClick={()=>handleClick(item)}
                     key={item.path} className='pr-9 cursor-pointer'>
                     <p className={`${location.pathname===item.path?

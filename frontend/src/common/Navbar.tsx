@@ -1,7 +1,7 @@
 
 import { Menu } from '@mui/icons-material'
 import { Drawer, IconButton } from '@mui/material'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
 function Navbar({DrawerList}:any) {
