@@ -1,10 +1,13 @@
 import { Menu } from "@mui/icons-material";
 import { Drawer, IconButton } from "@mui/material";
-import { useState } from "react";
+import {
+  useState,
+  type ComponentType,
+} from "react";
 import { useNavigate } from "react-router";
 
 interface NavbarProps {
-  DrawerList: React.ComponentType<{
+  DrawerList: ComponentType<{
     toggleDrawer: (newOpen: boolean) => () => void;
   }>;
 }
@@ -40,7 +43,9 @@ function Navbar({ DrawerList }: NavbarProps) {
         open={open}
         onClose={toggleDrawer(false)}
       >
-        <DrawerList toggleDrawer={toggleDrawer} />
+        <DrawerList
+          toggleDrawer={toggleDrawer}
+        />
       </Drawer>
     </div>
   );

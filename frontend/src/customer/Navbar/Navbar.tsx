@@ -18,7 +18,7 @@ import { useState } from "react";
 import { mainCategory } from "../../data/category/MainCategory";
 import CategorySheet from "./CategorySheet";
 import { useNavigate } from "react-router";
-import store, { useAppSelector } from "../../redux/store";
+import  { useAppSelector } from "../../redux/store";
 function Navbar() {
 
   const {user}=useAppSelector(store=>store)
