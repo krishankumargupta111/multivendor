@@ -84,21 +84,20 @@ function SellerDrawerList({
     console.log("logout");
   };
 
-  const handleClick = (item: {
-    name: string;
-    path: string;
-  }) => {
-    if (item.name === "Logout") {
-      handleLogout();
-    }
+const handleClick = (item: {
+  name: string;
+  path: string;
+}) => {
+  if (item.name === "Logout") {
+    handleLogout();
+  }
 
-    navigate(item.path);
+  navigate(item.path);
 
-    // Close drawer on mobile
-    if (toggleDrawer) {
-      toggleDrawer();
-    }
-  };
+  if (toggleDrawer) {
+    toggleDrawer(false)();
+  }
+};
 
   return (
     <div className="h-full">
@@ -106,7 +105,7 @@ function SellerDrawerList({
         className="flex flex-col justify-between h-full w-[300px]
         border-r py-5 border-gray-300"
       >
-        {/* ================= MAIN MENU ================= */}
+  
 
         <div className="space-y-2">
           {menu.map((item) => (
@@ -134,7 +133,6 @@ function SellerDrawerList({
           ))}
         </div>
 
-        {/* ================= SECOND MENU ================= */}
 
         <div className="space-y-2">
           <Divider />
