@@ -1,8 +1,17 @@
-import { AccountBalanceWallet, AccountBox, Add, Category, Dashboard, ElectricBolt, Home, IntegrationInstructions, Inventory, LocalOffer, Logout, Receipt, ShoppingBag } from '@mui/icons-material'
-import { Divider, ListItemIcon, ListItemText } from '@mui/material'
-import React from 'react'
-import { useLocation, useNavigate } from 'react-router'
-import { useAppSelector } from '../../redux/store'
+import {
+  Add,
+  Category,
+  Dashboard,
+  ElectricBolt,
+  Home,
+  IntegrationInstructions,
+  LocalOffer,
+  Logout,
+} from '@mui/icons-material';
+
+import { Divider, ListItemIcon, ListItemText } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router';
+import { useAppSelector } from '../../redux/store';
 
 
 const menu=[
@@ -56,7 +65,7 @@ const menu=[
     }
 ]
 
-function AdminDrawerList({toggleDrawer}) {
+function AdminDrawerList() {
 
 
     const user=useAppSelector(store=>store.user)
@@ -81,7 +90,7 @@ console.log("logout")
         border-r py-5 border-gray-300 '>
             <div className='space-y-2'>
              {
-                menu.map((item,index)=>
+                menu.map((item)=>
                    <div onClick={()=>handleClick(item)}
                     key={item.path} className='pr-9 cursor-pointer'>
                     <p className={`${location.pathname===item.path?

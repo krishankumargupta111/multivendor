@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import SellerLogin from './SellerLogin'
 import SellerAccountForm from './SellerAccountForm'
 import { Button } from '@mui/material'

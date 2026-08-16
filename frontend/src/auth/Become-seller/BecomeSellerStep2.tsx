@@ -1,5 +1,5 @@
 import { Grid, TextField } from '@mui/material'
-import React from 'react'
+
 
 function BecomeSellerStep2({formik}:any) {
   return (

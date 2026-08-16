@@ -1,5 +1,4 @@
-import React from 'react'
-import HomeCategoryTableTable from './HomeCategoryTable'
+
 import HomeCategoryTable from './HomeCategoryTable'
 import { useAppSelector } from '../../redux/store'
 

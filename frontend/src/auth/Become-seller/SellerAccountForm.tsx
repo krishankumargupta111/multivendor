@@ -1,5 +1,5 @@
 import { useFormik } from 'formik'
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import { Button, Step, StepLabel, Stepper } from '@mui/material'
 import BecomeSellerStep1 from './BecomeSellerStep1'
 import BecomeSellerStep2 from './BecomeSellerStep2'
@@ -75,20 +75,28 @@ function SellerAccountForm() {
   
     
         </div>
+<div className='flex items-center justify-between mt-5'>
+  <Button
+    variant='contained'
+    disabled={activeStep === 0}
+    onClick={() => setActiveStep(activeStep - 1)}
+  >
+    Back
+  </Button>
 
-        <div className='flex items-center justify-between mt-5'>
-            <Button variant='contained' disabled={activeStep===0} onClick={()=>
-               
-               setActiveStep(activeStep-1)}>Back
-            </Button>
-
-            <Button variant='contained' onClick={activeStep===steps.length-1?
-                formik.handleSubmit:()=>setActiveStep(activeStep+1)
-            }>
-                {activeStep===steps.length-1 ?"Create Account":"Next"}
-            </Button>
-            
-        </div>
+  <Button
+    variant='contained'
+    onClick={() => {
+      if (activeStep === steps.length - 1) {
+        formik.handleSubmit();
+      } else {
+        setActiveStep(activeStep + 1);
+      }
+    }}
+  >
+    {activeStep === steps.length - 1 ? "Create Account" : "Next"}
+  </Button>
+</div>
     </div>
   )
 }
