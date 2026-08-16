@@ -3,7 +3,7 @@ import { useAppSelector } from "../../redux/store";
 
 function ElectronicsTable() {
   const homeCategories = useAppSelector(
-    (store) => store.homeCategory.categories
+    (store) => store.homeCategory.homeCategories
   );
 
   return (

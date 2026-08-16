@@ -2,11 +2,13 @@ import HomeCategoryTable from "./HomeCategoryTable";
 import { useAppSelector } from "../../redux/store";
 
 export default function GridTable() {
-  const categories = useAppSelector(
-    (store) => store.homeCategory.categories
+  const homeCategories = useAppSelector(
+    (store) => store.homeCategory.homeCategories
   );
 
   return (
-    <HomeCategoryTable categories={categories} />
+    <HomeCategoryTable
+      categories={homeCategories.grid}
+    />
   );
 }

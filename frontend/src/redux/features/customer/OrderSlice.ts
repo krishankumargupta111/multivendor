@@ -32,6 +32,8 @@ interface Order {
   createdAt?: string;
   updatedAt?: string;
 
+  orderItems: OrderItem[];
+
   [key: string]: any;
 }
 
