@@ -57,9 +57,16 @@ export default function Coupon() {
 
   if (loading && (!coupons || coupons.length === 0)) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
-        <CircularProgress />
-      </Box>
+     <Box
+  sx={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: "200px",
+  }}
+>
+  <CircularProgress />
+</Box>
     );
   }
 

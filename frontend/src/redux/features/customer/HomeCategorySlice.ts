@@ -6,12 +6,17 @@ interface HomeCategory {
   name?: string;
   image?: string;
   categoryId?: string;
-
   [key: string]: any;
 }
 
+interface HomeCategories {
+  grid: HomeCategory[];
+  electricCategories: HomeCategory[];
+  shopByCategory: HomeCategory[];
+}
+
 interface HomeCategoryState {
-  homeCategories: HomeCategory[];
+  homeCategories: HomeCategories;
   loading: boolean;
   error: string | null;
 }
@@ -40,16 +45,18 @@ export const createHomeCategories = createAsyncThunk<any, any>(
 );
 
 const initialState: HomeCategoryState = {
-  homeCategories: [],
+  homeCategories: {
+    grid: [],
+    electricCategories: [],
+    shopByCategory: [],
+  },
   loading: false,
   error: null,
 };
 
 const HomeCategorySlice = createSlice({
   name: "homeCategories",
-
   initialState,
-
   reducers: {},
 
   extraReducers: (builder) => {
@@ -66,7 +73,6 @@ const HomeCategorySlice = createSlice({
 
       .addCase(createHomeCategories.rejected, (state, action) => {
         state.loading = false;
-
         state.error =
           (action.payload as string) ??
           action.error.message ??
