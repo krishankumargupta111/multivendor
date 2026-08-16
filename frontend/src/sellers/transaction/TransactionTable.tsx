@@ -1,92 +1,133 @@
-import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
-import { useEffect } from 'react';
-import { fetchTransactionBySeller } from '../../redux/features/seller/TransactionSlice';
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, {
+  tableCellClasses,
+} from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { useEffect } from "react";
+import { fetchTransactionBySeller } from "../../redux/features/seller/TransactionSlice";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
   },
+
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
   },
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
+  "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
-  '&:last-child td, &:last-child th': {
+
+  "&:last-child td, &:last-child th": {
     border: 0,
   },
 }));
 
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number,
-) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+type Transaction = {
+  _id?: string;
+  date?: string;
+  customer?: {
+    fullName?: string;
+    email?: string;
+  };
+  order?: {
+    _id?: string;
+    orderItems?: unknown[];
+    totalSellingPrice?: number;
+  };
+};
 
 export default function TransactionTable() {
-  const dispatch=useAppDispatch()
+  const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    const jwt = localStorage.getItem("jwt");
 
+    if (jwt) {
+      dispatch(fetchTransactionBySeller(jwt));
+    }
+  }, [dispatch]);
 
-  useEffect(()=>{
-dispatch(fetchTransactionBySeller(localStorage.getItem("jwt")))
-  },[])
+  const { transaction } = useAppSelector(
+    (store) => store.transaction
+  );
 
-  const {transaction}=useAppSelector((store)=>store.transaction)
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <Table
+        sx={{ minWidth: 700 }}
+        aria-label="transaction table"
+      >
         <TableHead>
           <TableRow>
-            <StyledTableCell>Date</StyledTableCell>
-            <StyledTableCell align="right">Customer</StyledTableCell>
-            <StyledTableCell align="right">Order</StyledTableCell>
-            <StyledTableCell align="right">Amount</StyledTableCell>
-            
+            <StyledTableCell>
+              Date
+            </StyledTableCell>
+
+            <StyledTableCell align="right">
+              Customer
+            </StyledTableCell>
+
+            <StyledTableCell align="right">
+              Order
+            </StyledTableCell>
+
+            <StyledTableCell align="right">
+              Amount
+            </StyledTableCell>
           </TableRow>
         </TableHead>
+
         <TableBody>
-          {transaction.map((item,index) => (
-            <StyledTableRow key={index}>
-              <StyledTableCell component="th" scope="row">
-         
-{item.date}
+          {(transaction as Transaction[]).map(
+            (item, index) => (
+              <StyledTableRow
+                key={item._id || index}
+              >
+                {/* DATE */}
+                <StyledTableCell
+                  component="th"
+                  scope="row"
+                >
+                  {item.date
+                    ? new Date(
+                        item.date
+                      ).toLocaleDateString()
+                    : "-"}
+                </StyledTableCell>
 
-              </StyledTableCell>
-              <StyledTableCell align="right">{item.customer}</StyledTableCell>
-              <StyledTableCell align="right">{item.order?.orderItems}</StyledTableCell>
-              <StyledTableCell align="right">{item.order?.totalSellingPrice
-}</StyledTableCell>
-            
+                {/* CUSTOMER */}
+                <StyledTableCell align="right">
+                  {typeof item.customer === "object"
+                    ? item.customer?.fullName ||
+                      item.customer?.email ||
+                      "-"
+                    : item.customer || "-"}
+                </StyledTableCell>
 
-            </StyledTableRow>
-          ))}
+                {/* ORDER */}
+                <StyledTableCell align="right">
+                  {item.order?._id || "-"}
+                </StyledTableCell>
+
+                {/* AMOUNT */}
+                <StyledTableCell align="right">
+                  ₹{item.order?.totalSellingPrice || 0}
+                </StyledTableCell>
+              </StyledTableRow>
+            )
+          )}
         </TableBody>
       </Table>
     </TableContainer>

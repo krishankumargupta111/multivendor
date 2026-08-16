@@ -1,5 +1,5 @@
 import { Box, Button, Divider } from '@mui/material'
-import React, { useEffect } from 'react'
+import  { useEffect } from 'react'
 import OrderStepper from './OrderStepper'
 import { Payment } from '@mui/icons-material'
 import { useAppDispatch, useAppSelector } from '../../../redux/store'

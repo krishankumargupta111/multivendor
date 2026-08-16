@@ -1,52 +1,107 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "../../../config/api";
 
-const initialState={
-    transaction:[],
-    loading:false,
-    error:""
+interface Order {
+  _id: string;
+  totalSellingPrice?: number;
 }
 
-export const fetchTransactionBySeller = createAsyncThunk<any, any>(
-  "/transactoin/fetchTransactionBySeller",
+interface Customer {
+  _id: string;
+  fullName?: string;
+}
+
+interface Transaction {
+  _id: string;
+  date?: string;
+  customer?: Customer;
+  order?: Order;
+}
+
+interface TransactionState {
+  transaction: Transaction[];
+  loading: boolean;
+  error: string;
+}
+
+const initialState: TransactionState = {
+  transaction: [],
+  loading: false,
+  error: "",
+};
+
+export const fetchTransactionBySeller = createAsyncThunk<
+  Transaction[],
+  string,
+  { rejectValue: string }
+>(
+  "/transaction/fetchTransactionBySeller",
+
   async (jwt, { rejectWithValue }) => {
     try {
-      const response = await api.get(`/api/transactions/seller`, {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      });
+      const response = await api.get(
+        `/api/transactions/seller`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
 
-      console.log("fetch trasaction by seller", response.data);
+      console.log(
+        "fetch transaction by seller",
+        response.data
+      );
+
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       console.log("error", error);
-      return rejectWithValue(error);
+
+      return rejectWithValue(
+        error.response?.data?.error ||
+          error.message ||
+          "Failed to fetch transactions"
+      );
     }
-  },
+  }
 );
 
+const transactionSlice = createSlice({
+  name: "transaction",
+  initialState,
 
-const transactionSlice=createSlice({
-    name:'transaction',
-    initialState,
-    reducers:{},
+  reducers: {},
 
-    extraReducers:(builder)=>{
- builder.addCase(fetchTransactionBySeller.pending, (state) => {
-      state.loading = true;
-      state.error = "";
-      
-    });
-    builder.addCase(fetchTransactionBySeller.fulfilled, (state, action) => {
-      state.loading = false;
-      state.transaction = action.payload;
-    });
-    builder.addCase(fetchTransactionBySeller.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message;
-    });
-    }
-})
+  extraReducers: (builder) => {
+    builder
 
-export default transactionSlice.reducer
+      .addCase(
+        fetchTransactionBySeller.pending,
+        (state) => {
+          state.loading = true;
+          state.error = "";
+        }
+      )
+
+      .addCase(
+        fetchTransactionBySeller.fulfilled,
+        (state, action) => {
+          state.loading = false;
+          state.transaction = action.payload;
+        }
+      )
+
+      .addCase(
+        fetchTransactionBySeller.rejected,
+        (state, action) => {
+          state.loading = false;
+          state.error =
+            action.payload ||
+            action.error.message ||
+            "Something went wrong";
+        }
+      );
+  },
+});
+
+export default transactionSlice.reducer;
