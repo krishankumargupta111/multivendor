@@ -15,7 +15,6 @@ import {
   updateOrderStatus,
 } from "../../redux/features/seller/SellerOrderSlice";
 
-
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -136,42 +135,57 @@ function OrderTable() {
               <StyledTableCell>
                 <div className="flex gap-1 flex-wrap">
                   {order.orderItems.map(
-                    (item, index) => (
-                      <div
-                        key={`${item.product._id ?? index}`}
-                        className="flex gap-5"
-                      >
-                        <img
-                          className="w-20 rounded-md"
-                          src={
-                            item.product.images?.[0] ||
-                            ""
-                          }
-                          alt={item.product.title || "Product"}
-                        />
+                    (item, index) => {
+                      // Product may be undefined according to TypeScript
+                      if (!item.product) {
+                        return (
+                          <div
+                            key={`product-${index}`}
+                            className="text-gray-500"
+                          >
+                            Product not available
+                          </div>
+                        );
+                      }
 
-                        <div className="flex flex-col justify-between py-2">
-                          <h1>
-                            Title:{" "}
-                            {item.product.title}
-                          </h1>
+                      return (
+                        <div
+                          key={`${item.product._id ?? index}`}
+                          className="flex gap-5"
+                        >
+                          <img
+                            className="w-20 rounded-md"
+                            src={
+                              item.product.images?.[0] || ""
+                            }
+                            alt={
+                              item.product.title || "Product"
+                            }
+                          />
 
-                          <h1>
-                            Price: Rs.
-                            {item.sellingPrice}
-                          </h1>
+                          <div className="flex flex-col justify-between py-2">
+                            <h1>
+                              Title:{" "}
+                              {item.product.title}
+                            </h1>
 
-                          <h1>
-                            Color:{" "}
-                            {item.product.color}
-                          </h1>
+                            <h1>
+                              Price: Rs.{" "}
+                              {item.sellingPrice}
+                            </h1>
 
-                          <h1>
-                            Size: {item.size}
-                          </h1>
+                            <h1>
+                              Color:{" "}
+                              {item.product.color}
+                            </h1>
+
+                            <h1>
+                              Size: {item.size}
+                            </h1>
+                          </div>
                         </div>
-                      </div>
-                    )
+                      );
+                    }
                   )}
                 </div>
               </StyledTableCell>
