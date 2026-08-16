@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,11 +8,13 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button, Chip, Menu, MenuItem } from "@mui/material";
+
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import {
   fetchSellerOrders,
   updateOrderStatus,
 } from "../../redux/features/seller/SellerOrderSlice";
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -44,20 +46,22 @@ const orderStatus = [
   { color: "#FF0000", label: "CANCELLED" },
 ];
 
-export default function OrderTable() {
-  const [selectedOrderId, setSelectedOrderId] = React.useState<string>("");
+function OrderTable() {
+  const [selectedOrderId, setSelectedOrderId] = useState<string>("");
 
   const [anchorEl, setAnchorEl] =
-    React.useState<null | HTMLElement>(null);
+    useState<null | HTMLElement>(null);
 
-  const { orders } = useAppSelector((store) => store.sellerOrder);
+  const { orders } = useAppSelector(
+    (store) => store.sellerOrder
+  );
 
   const dispatch = useAppDispatch();
 
   const open = Boolean(anchorEl);
 
   const handleClick = (
-    event: React.MouseEvent<HTMLButtonElement>,
+    event: MouseEvent<HTMLButtonElement>,
     orderId: string
   ) => {
     setAnchorEl(event.currentTarget);
@@ -68,9 +72,10 @@ export default function OrderTable() {
     setAnchorEl(null);
   };
 
-  const handleUpdateOrder = (id: string, status: string) => {
-    console.log("update order", id, status);
-
+  const handleUpdateOrder = (
+    id: string,
+    status: string
+  ) => {
     dispatch(
       updateOrderStatus({
         orderId: id,
@@ -83,17 +88,26 @@ export default function OrderTable() {
   };
 
   useEffect(() => {
-    dispatch(fetchSellerOrders(localStorage.getItem("jwt")));
+    dispatch(
+      fetchSellerOrders(localStorage.getItem("jwt"))
+    );
   }, [dispatch]);
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <Table
+        sx={{ minWidth: 700 }}
+        aria-label="customized table"
+      >
         <TableHead>
           <TableRow>
-            <StyledTableCell>Order Id</StyledTableCell>
+            <StyledTableCell>
+              Order Id
+            </StyledTableCell>
 
-            <StyledTableCell>Products</StyledTableCell>
+            <StyledTableCell>
+              Products
+            </StyledTableCell>
 
             <StyledTableCell align="right">
               Shipping Address
@@ -112,52 +126,63 @@ export default function OrderTable() {
         <TableBody>
           {orders.map((order) => (
             <StyledTableRow key={order._id}>
-              <StyledTableCell component="th" scope="row">
+              <StyledTableCell
+                component="th"
+                scope="row"
+              >
                 {order._id}
               </StyledTableCell>
 
               <StyledTableCell>
                 <div className="flex gap-1 flex-wrap">
-                  {order.orderItems.map((item, index) => (
-                    <div
-                      key={index}
-                      className="flex gap-5"
-                    >
-                      <img
-                        className="w-20 rounded-md"
-                        src={item.product.images[0]}
-                        alt=""
-                      />
+                  {order.orderItems.map(
+                    (item, index) => (
+                      <div
+                        key={`${item.product._id ?? index}`}
+                        className="flex gap-5"
+                      >
+                        <img
+                          className="w-20 rounded-md"
+                          src={
+                            item.product.images?.[0] ||
+                            ""
+                          }
+                          alt={item.product.title || "Product"}
+                        />
 
-                      <div className="flex flex-col justify-between py-2">
-                        <h1>
-                          Title: {item.product.title}
-                        </h1>
+                        <div className="flex flex-col justify-between py-2">
+                          <h1>
+                            Title:{" "}
+                            {item.product.title}
+                          </h1>
 
-                        <h1>
-                          Price: Rs.{item.sellingPrice}
-                        </h1>
+                          <h1>
+                            Price: Rs.
+                            {item.sellingPrice}
+                          </h1>
 
-                        <h1>
-                          Color: {item.product.color}
-                        </h1>
+                          <h1>
+                            Color:{" "}
+                            {item.product.color}
+                          </h1>
 
-                        <h1>
-                          Size: {item.size}
-                        </h1>
+                          <h1>
+                            Size: {item.size}
+                          </h1>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  )}
                 </div>
               </StyledTableCell>
 
               <StyledTableCell align="right">
                 <p>
-                  {order?.shippingAddress?.address},{" "}
-                  {order?.shippingAddress?.locality},{" "}
-                  {order?.shippingAddress?.city},{" "}
-                  {order?.shippingAddress?.state},{" "}
-                  {order?.shippingAddress?.pincode}
+                  {order.shippingAddress?.address},{" "}
+                  {order.shippingAddress?.locality},{" "}
+                  {order.shippingAddress?.city},{" "}
+                  {order.shippingAddress?.state},{" "}
+                  {order.shippingAddress?.pincode}
                 </p>
               </StyledTableCell>
 
@@ -183,7 +208,8 @@ export default function OrderTable() {
                   onClose={handleClose}
                   slotProps={{
                     list: {
-                      "aria-labelledby": "basic-button",
+                      "aria-labelledby":
+                        "basic-button",
                     },
                   }}
                 >
@@ -209,3 +235,5 @@ export default function OrderTable() {
     </TableContainer>
   );
 }
+
+export default OrderTable;
