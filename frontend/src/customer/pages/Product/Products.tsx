@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import { Divider, FormControl,InputLabel } from '@mui/material'
 import {Select,MenuItem,Pagination} from '@mui/material'
 
@@ -8,21 +8,9 @@ import ProductCard from './ProductCard'
 import { useEffect } from 'react'
 import { useParams, useSearchParams } from 'react-router'
 import { useAppDispatch, useAppSelector } from '../../../redux/store'
-import { getAllProducts, searchProduct } from '../../../redux/features/customer/ProductSlice'
+import { getAllProducts} from '../../../redux/features/customer/ProductSlice'
 
-const products={
-    images:["https://w7.pngwing.com/pngs/534/602/png-transparent-pattu-saree-thumbnail.png",
-        "https://png.pngtree.com/png-vector/20250129/ourmid/pngtree-jacquard-silk-saree-for-festive-celebrations-png-image_15364503.png",
-        "https://w7.pngwing.com/pngs/534/602/png-transparent-pattu-saree-thumbnail.png",
-        "https://w7.pngwing.com/pngs/534/602/png-transparent-pattu-saree-thumbnail.png",
-    
-    ]
-,seller:{
-  businessDetails:{
-    businessName:"Pablo clothing"
-  }
-}
-}
+
 
 
 function Products() {

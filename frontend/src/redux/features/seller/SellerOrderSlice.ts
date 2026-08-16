@@ -3,17 +3,46 @@ import { api } from "../../../config/api";
 
 // ================= TYPES =================
 
+interface Product {
+  _id?: string;
+  title?: string;
+  color?: string;
+  images?: string[];
+}
+
+interface OrderItem {
+  _id?: string;
+  product?: Product;
+  quantity?: number;
+  sellingPrice?: number;
+  size?: string;
+}
+
+interface ShippingAddress {
+  _id?: string;
+  address?: string;
+  locality?: string;
+  city?: string;
+  state?: string;
+  pincode?: string;
+  pinCode?: string;
+}
+
 interface SellerOrder {
   _id: string;
+
+  orderItems: OrderItem[];
+
   orderStatus?: string;
   paymentStatus?: string;
+
   totalSellingPrice?: number;
   totalMrpPrice?: number;
-  seller?: any;
-  customer?: any;
-  shippingAddress?: any;
 
-  [key: string]: any;
+  seller?: unknown;
+  customer?: unknown;
+
+  shippingAddress?: ShippingAddress;
 }
 
 interface SellerOrderState {
@@ -32,12 +61,15 @@ const initialState: SellerOrderState = {
 
 // ================= FETCH SELLER ORDERS =================
 
-export const fetchSellerOrders = createAsyncThunk<any, any>(
+export const fetchSellerOrders = createAsyncThunk<
+  SellerOrder[],
+  string | null
+>(
   "/sellerOrders/fetchSellerOrders",
   async (jwt, { rejectWithValue }) => {
     try {
       const response = await api.get(
-        `/api/seller/orders`,
+        "/api/seller/orders",
         {
           headers: {
             Authorization: `Bearer ${jwt}`,
@@ -50,13 +82,30 @@ export const fetchSellerOrders = createAsyncThunk<any, any>(
         response.data
       );
 
-      return response.data;
-    } catch (error: any) {
+      return response.data as SellerOrder[];
+    } catch (error: unknown) {
       console.log("error", error);
 
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "response" in error
+      ) {
+        const axiosError = error as {
+          response?: {
+            data?: {
+              message?: string;
+            };
+          };
+        };
+
+        return rejectWithValue(
+          axiosError.response?.data?.message ??
+            "Failed to fetch seller orders"
+        );
+      }
+
       return rejectWithValue(
-        error.response?.data?.message ??
-        error.message ??
         "Failed to fetch seller orders"
       );
     }
@@ -65,7 +114,14 @@ export const fetchSellerOrders = createAsyncThunk<any, any>(
 
 // ================= UPDATE ORDER STATUS =================
 
-export const updateOrderStatus = createAsyncThunk<any, any>(
+export const updateOrderStatus = createAsyncThunk<
+  SellerOrder,
+  {
+    jwt: string | null;
+    orderId: string;
+    orderStatus: string;
+  }
+>(
   "/sellerOrders/updateOrderStatus",
   async (
     { jwt, orderId, orderStatus },
@@ -87,19 +143,30 @@ export const updateOrderStatus = createAsyncThunk<any, any>(
         response.data
       );
 
-      return response.data;
-    } catch (error: any) {
-      console.log("error", error.message);
-      console.log(
-        error.response?.status
-      );
-      console.log(
-        error.response?.data
-      );
+      return response.data as SellerOrder;
+    } catch (error: unknown) {
+      console.log("error", error);
+
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "response" in error
+      ) {
+        const axiosError = error as {
+          response?: {
+            data?: {
+              message?: string;
+            };
+          };
+        };
+
+        return rejectWithValue(
+          axiosError.response?.data?.message ??
+            "Failed to update order status"
+        );
+      }
 
       return rejectWithValue(
-        error.response?.data?.message ??
-        error.message ??
         "Failed to update order status"
       );
     }
@@ -116,7 +183,6 @@ const sellerOrderSlice = createSlice({
   reducers: {},
 
   extraReducers: (builder) => {
-
     // ================= FETCH ORDERS =================
 
     builder
