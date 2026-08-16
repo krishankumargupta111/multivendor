@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "../../../config/api";
 
-// ================= TYPES =================
+
 
 interface CartItem {
   _id: string;
@@ -36,7 +36,6 @@ const initialState: CartState = {
 
 const API_URL = "/api/cart";
 
-// ================= FETCH CART =================
 
 export const fetchCart = createAsyncThunk<any, any>(
   "/cart/fetchCart",
@@ -63,7 +62,7 @@ export const fetchCart = createAsyncThunk<any, any>(
   }
 );
 
-// ================= ADD ITEM TO CART =================
+
 
 export const addItemToCart = createAsyncThunk<any, any>(
   "/cart/addItemToCart",
@@ -82,7 +81,6 @@ export const addItemToCart = createAsyncThunk<any, any>(
 
       console.log("add item to cart", response.data);
 
-      // Refresh cart after adding item
       await dispatch(fetchCart(jwt));
 
       return response.data;
@@ -93,7 +91,6 @@ export const addItemToCart = createAsyncThunk<any, any>(
   }
 );
 
-// ================= DELETE CART ITEM =================
 
 export const deleteCartItem = createAsyncThunk<any, any>(
   "/cart/deleteCartItem",
@@ -119,7 +116,6 @@ export const deleteCartItem = createAsyncThunk<any, any>(
   }
 );
 
-// ================= UPDATE CART ITEM =================
 
 export const updateCartItem = createAsyncThunk<any, any>(
   "/cart/updateCartItem",
@@ -151,7 +147,6 @@ export const updateCartItem = createAsyncThunk<any, any>(
   }
 );
 
-// ================= SLICE =================
 
 const cartSlice = createSlice({
   name: "cart",
@@ -161,7 +156,7 @@ const cartSlice = createSlice({
 
   extraReducers: (builder) => {
 
-    // ================= FETCH CART =================
+  
 
     builder
       .addCase(fetchCart.pending, (state) => {
@@ -182,20 +177,16 @@ const cartSlice = createSlice({
           "";
       });
 
-    // ================= ADD ITEM =================
+  
 
     builder
       .addCase(addItemToCart.pending, (state) => {
         state.loading = true;
       })
 
-      .addCase(addItemToCart.fulfilled, (state, action) => {
-        state.loading = false;
-
-        if (state.cart) {
-          state.cart.cartItems.push(action.payload);
-        }
-      })
+      .addCase(addItemToCart.fulfilled, (state) => {
+  state.loading = false;
+})
 
       .addCase(addItemToCart.rejected, (state, action) => {
         state.loading = false;
@@ -206,7 +197,7 @@ const cartSlice = createSlice({
           "";
       });
 
-    // ================= UPDATE ITEM =================
+  
 
     builder
       .addCase(updateCartItem.pending, (state) => {
@@ -236,7 +227,7 @@ const cartSlice = createSlice({
           "";
       });
 
-    // ================= DELETE ITEM =================
+  
 
     builder
       .addCase(deleteCartItem.pending, (state) => {
