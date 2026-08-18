@@ -11,7 +11,6 @@ import userService from "./userService.js";
 
 class AuthService{
 
-    
     async sendLoginOTP(email){
         
         const SIGNIN_PREFIX='signin_'
@@ -43,8 +42,7 @@ async createUser(req){
     let user=await UserModel.findOne({email})
     if(user){
         throw new Error("User already exist with email")
-
-    }
+     }
     const verificationCode=await verificationCodeModel.findOne({email})
     console.log("DB OTP:", verificationCode?.otp);
 console.log("User OTP:", otp);
@@ -52,8 +50,7 @@ console.log("Equal:", String(verificationCode.otp) === String(otp));
     if(!verificationCode || String(verificationCode.otp)!==String(otp)){
         throw new Error("invalid otp")
     }
-
-    user=new UserModel({
+user=new UserModel({
         email,fullName
     })
     await user.save()
@@ -73,6 +70,7 @@ async sigin(req){
 
         throw new Error("invalid otp")
     }
+    
     return{
         message:"Login success",
         jwt:jwtProvider.createJwt({email}),

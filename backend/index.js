@@ -6,7 +6,12 @@ const app=express()
 import connectDb from './db/db.js'
 import cors from 'cors'
 
-app.use(cors())
+app.use(
+  cors({
+    origin:process.env.VITE,
+    credentials: true,
+  })
+);
 const port=process.env.PORT
 app.use(express.json());
 

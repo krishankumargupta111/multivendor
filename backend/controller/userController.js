@@ -6,6 +6,7 @@ return res.status(200).json(user)
 handleErrors(err,res)
     }
 }
+
 const handleErrors=(err,res)=>{
     if(err instanceof Error){
         return res.status(404).json({message:err.message})
@@ -13,3 +14,4 @@ const handleErrors=(err,res)=>{
     return res.status(500).json({message:'internal server error'})
 }
 export default getUserProfileByJwt
+
