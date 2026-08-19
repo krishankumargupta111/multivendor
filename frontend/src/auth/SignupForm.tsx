@@ -1,10 +1,13 @@
 import { Button, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import { useAppDispatch, useAppSelector } from "../redux/store";
-import { sendLoginSignupOtp, signin } from "../redux/features/Auth/AuthSlice";
+import {
+  sendLoginSignupOtp,
+  signup,
+} from "../redux/features/Auth/AuthSlice";
 import { useNavigate } from "react-router";
 
-function LoginForm() {
+function SignupForm() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -12,20 +15,36 @@ function LoginForm() {
 
   const formik = useFormik({
     initialValues: {
+      fullName: "",
       email: "",
       otp: "",
     },
 
     onSubmit: (values) => {
       console.log(values);
-      dispatch(signin({ ...values, navigate }));
+
+      dispatch(
+        signup({
+          fullName: values.fullName,
+          email: values.email,
+          otp: values.otp,
+          navigate,
+        })
+      );
     },
   });
 
   const handleSendOtp = () => {
-    const email = "signin_" + formik.values.email;
+    if (!formik.values.email) {
+      alert("Please enter your email");
+      return;
+    }
 
-    dispatch(sendLoginSignupOtp({ email }));
+    dispatch(
+      sendLoginSignupOtp({
+        email: formik.values.email,
+      })
+    );
   };
 
   const handleButtonClick = () => {
@@ -39,7 +58,7 @@ function LoginForm() {
   return (
     <div>
       <h1 className="text-2xl text-center font-bold text-teal-600 pb-5">
-        Login
+        Create Account
       </h1>
 
       <form
@@ -50,47 +69,55 @@ function LoginForm() {
         className="space-y-5"
       >
         <div>
+        <TextField
+          fullWidth
+          name="fullName"
+          label="Full Name"
+          value={formik.values.fullName}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        />
+        </div>
+
+       <div>
+        <TextField
+          fullWidth
+          name="email"
+          label="Email"
+          type="email"
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          disabled={auth.otpSend}
+        />
+        </div>
+
+        <div>
+        {auth.otpSend && (
           <TextField
             fullWidth
-            name="email"
-            label="Email"
-            value={formik.values.email}
+            name="otp"
+            label="Enter OTP"
+            value={formik.values.otp}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
           />
-        </div>
-
-        {auth.otpSend && (
-          <div>
-            <TextField
-              fullWidth
-              name="otp"
-              label="OTP"
-              value={formik.values.otp}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.otp && Boolean(formik.errors.otp)}
-              helperText={formik.touched.otp && formik.errors.otp}
-            />
-          </div>
-        )}
-
-        <div className="pb-6">
-          <Button
-            type="button"
-            onClick={handleButtonClick}
-            fullWidth
-            sx={{ py: "12px" }}
-            variant="contained"
-          >
-            {auth.otpSend ? "Login" : "Send OTP"}
-          </Button>
-        </div>
+        )}</div>
+    
+<div className="pb-6">
+        <Button 
+          type="button"
+          onClick={handleButtonClick}
+          fullWidth
+          sx={{ py: "12px" }}
+          variant="contained"
+        >
+          {auth.otpSend ? "Sign Up" : "Send OTP"}
+        </Button>
+      </div>
       </form>
     </div>
   );
 }
 
-export default LoginForm;
+export default SignupForm;

@@ -10,28 +10,61 @@ import bcrypt from 'bcrypt'
 import userService from "./userService.js";
 
 class AuthService{
+async sendLoginOTP(email) {
 
-    async sendLoginOTP(email){
-        
-        const SIGNIN_PREFIX='signin_'
+    console.log("Email received:", email);
 
-        if(email.startsWith(SIGNIN_PREFIX)){
-            email=email.substring(SIGNIN_PREFIX.length)
-const seller=await sellerModel.findOne({email})
-const user=await UserModel.findOne({email})
-if(!seller && !user) throw new Error("user not found")}
-    const existingVerificationCode=await 
-verificationCodeModel.findOne({email})
-if(existingVerificationCode){
-    await verificationCodeModel.deleteOne({email})
-}
-const otp=generateOTP()
-const verificationCode=new verificationCodeModel({otp,email})
-await verificationCode.save()
-const subject="Bazar Login/Signup OTP" 
-const body=`Your otp is ${otp}.Please enter it to complete
-your login process`
-await sendVerificationEmail(email,subject,body)
+    const SIGNIN_PREFIX = "signin_";
+
+    // LOGIN
+    if (email.startsWith(SIGNIN_PREFIX)) {
+
+        email = email.substring(SIGNIN_PREFIX.length);
+
+        console.log("Login email:", email);
+
+        const seller = await sellerModel.findOne({ email });
+        const user = await UserModel.findOne({ email });
+
+        console.log("Seller:", seller);
+        console.log("User:", user);
+
+        if (!seller && !user) {
+            throw new Error("user not found");
+        }
+    }
+
+    // Remove old OTP
+    const existingVerificationCode =
+        await verificationCodeModel.findOne({ email });
+
+    if (existingVerificationCode) {
+        await verificationCodeModel.deleteOne({ email });
+    }
+
+    // Generate OTP
+    const otp = generateOTP();
+
+    const verificationCode =
+        new verificationCodeModel({
+            otp,
+            email
+        });
+
+    await verificationCode.save();
+
+    const subject = "Bazar Login/Signup OTP";
+
+    const body = `
+Your OTP is ${otp}.
+Please enter it to complete your login/signup process.
+`;
+
+    await sendVerificationEmail(
+        email,
+        subject,
+        body
+    );
 }
 
 async createUser(req){
@@ -78,7 +111,6 @@ async sigin(req){
     }
 
 }
-
 
 }
 export default new AuthService()

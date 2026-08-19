@@ -8,8 +8,8 @@ import cors from 'cors'
 
 app.use(
   cors({
-    origin:process.env.VITE,
-    credentials: true,
+  // origin:process.env.VITE,
+    // credentials: true,
   })
 );
 const port=process.env.PORT

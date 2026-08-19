@@ -42,6 +42,7 @@ export const signup = createAsyncThunk<any,any>(
       localStorage.setItem("jwt",response.data.jwt)
       
       signupRequest.navigate("/")
+      
       return response.data;
     } catch (error) {
       console.log("error", error);
