@@ -59,12 +59,16 @@ async sendLoginOTP(email) {
 Your OTP is ${otp}.
 Please enter it to complete your login/signup process.
 `;
-
+console.log("1 - OTP saved");
+console.log("2 - starting email");
     await sendVerificationEmail(
         email,
         subject,
         body
     );
+
+    console.log("3 - email completed");
+
 }
 
 async createUser(req){
