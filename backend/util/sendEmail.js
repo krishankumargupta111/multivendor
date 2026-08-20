@@ -16,6 +16,7 @@ console.log("PASSWORD length:", process.env.PASSWORD?.length);
       user: process.env.EMAIL,
       pass: process.env.PASSWORD,
     },
+      family: 4,
     connectionTimeout: 10000,
     greetingTimeout: 10000,
     socketTimeout: 10000,
