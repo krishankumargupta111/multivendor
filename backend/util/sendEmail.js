@@ -1,46 +1,46 @@
-import nodemailer from 'nodemailer'
-async function sendVerificationEmail(to, subject, body) {
-  const dns = require('dns');
+import nodemailer from 'nodemailer';
+import dns from 'dns';
 
-
+// Force IPv4 first to avoid IPv6 Gmail timeout issues
 dns.setDefaultResultOrder('ipv4first');
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL,
-    pass: process.env.PASSWORD,
-  },
-  connectionTimeout: 10000,
-  greetingTimeout: 10000,
-  socketTimeout: 10000,
-});
+
+async function sendVerificationEmail(to, subject, body) {
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASSWORD,
+    },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 10000,
+  });
 
   console.log("Checking Gmail SMTP...");
 
-transporter.verify((error, success) => {
-  if (error) {
-    console.error('SMTP connection error:', error);
-  } else {
-    console.log('SMTP server is ready to send emails');
+  try {
+    await transporter.verify();
+    console.log("Gmail SMTP connection successful");
+
+    const mailOptions = {
+      from: process.env.EMAIL,
+      to,
+      subject,
+      html: body,
+    };
+
+    console.log("Sending email...");
+
+    const info = await transporter.sendMail(mailOptions);
+
+    console.log("Email sent:", info.messageId);
+    return info;
+  } catch (error) {
+    console.error("SMTP Error:", error);
+    throw error;
   }
-});
-
-
-  console.log("Gmail SMTP connection successful");
-
-  const mailOptions = {
-    from: process.env.EMAIL,
-    to,
-    subject,
-    html: body,
-  };
-
-  console.log("Sending email...");
-
-  const info = await transporter.sendMail(mailOptions);
-
-  console.log("Email sent:", info.messageId);
 }
-export default sendVerificationEmail
+
+export default sendVerificationEmail;
