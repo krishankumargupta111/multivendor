@@ -15,7 +15,14 @@ const transporter = nodemailer.createTransport({
 
   console.log("Checking Gmail SMTP...");
 
-  await transporter.verify();
+transporter.verify((error, success) => {
+  if (error) {
+    console.error('SMTP connection error:', error);
+  } else {
+    console.log('SMTP server is ready to send emails');
+  }
+});
+
 
   console.log("Gmail SMTP connection successful");
 
