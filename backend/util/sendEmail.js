@@ -7,8 +7,8 @@ dns.setDefaultResultOrder('ipv4first');
 async function sendVerificationEmail(to, subject, body) {
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
+port: 587,             // Changed port from 465 to 587
+    secure: false,
     auth: {
       user: process.env.EMAIL,
       pass: process.env.PASSWORD,
