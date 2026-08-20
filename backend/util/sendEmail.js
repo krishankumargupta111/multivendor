@@ -1,44 +1,28 @@
-import nodemailer from 'nodemailer';
-import dns from 'dns';
-
-// Force IPv4 first to avoid IPv6 Gmail timeout issues
-dns.setDefaultResultOrder('ipv4first');
+import { Resend } from 'resend';
 
 async function sendVerificationEmail(to, subject, body) {
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-port: 587,             // Changed port from 465 to 587
-    secure: false,
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.PASSWORD,
-    },
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 10000,
-  });
+  // Initialize inside the function so process.env is guaranteed to be loaded
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
-  console.log("Checking Gmail SMTP...");
+  console.log("Sending email via Resend API...");
 
   try {
-    await transporter.verify();
-    console.log("Gmail SMTP connection successful");
-
-    const mailOptions = {
-      from: process.env.EMAIL,
+    const response = await resend.emails.send({
+      from: 'onboarding@resend.dev',
       to,
       subject,
       html: body,
-    };
+    });
 
-    console.log("Sending email...");
+    if (response.error) {
+      console.error("Resend API Error:", response.error);
+      throw new Error(response.error.message);
+    }
 
-    const info = await transporter.sendMail(mailOptions);
-
-    console.log("Email sent:", info.messageId);
-    return info;
+    console.log("Email sent successfully! ID:", response.data.id);
+    return response.data;
   } catch (error) {
-    console.error("SMTP Error:", error);
+    console.error("Failed to send email:", error);
     throw error;
   }
 }
